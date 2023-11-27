@@ -5,16 +5,26 @@ on: [push]
 
 jobs:
   build:
+    name: build
+    
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
+      - name: VLMB
+        uses: actions/checkout@v3
+      
+      - name: VLMB1
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: docker build -t ghcr.io/programming-framework/python-app:latest .
       - run: docker push  ghcr.io/programming-framework/python-app:latest 
 
   deploy:
     needs: [build]
+    name: dockerrun
     runs-on: ubuntu-latest
     steps:
     -  name: Login to Docker Hub
@@ -24,4 +34,5 @@ jobs:
          username: ${{ github.actor }}
          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - run: docker pull
+    - run: docker pull ghcr.io/programming-framework/python-app:latest
+    - run: docker run ghcr.io/programming-framework/python-app:latest
