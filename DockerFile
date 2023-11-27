@@ -1,4 +1,4 @@
-FROM python: leatest 
+FROM python:leatest 
 
 WORKDIR /app 
 
