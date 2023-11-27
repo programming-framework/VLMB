@@ -1,4 +1,4 @@
-FROM python:leatest 
+FROM python:latest 
 
 WORKDIR /app 
 
